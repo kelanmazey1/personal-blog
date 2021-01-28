@@ -1,15 +1,10 @@
 import Layout from '../components/Layout';
-import Blogview from '../components/Blogview';
-import Sidebar from '../components/Sidebar';
+import Navbar from '../components/Navbar';
 
 import { getPostInfo } from '../utils/posts';
 import { GetStaticPropsResult } from 'next';
 
-import { BlogPostInfo } from '../types';
-
-interface homeProps {
-  blogPostInfo: BlogPostInfo[];
-}
+interface homeProps {}
 
 export const getStaticProps = async (): Promise<
   GetStaticPropsResult<homeProps>
@@ -22,11 +17,10 @@ export const getStaticProps = async (): Promise<
   };
 };
 
-const Home = ({ blogPostInfo }: homeProps) => {
+const Home = (props: homeProps) => {
   return (
     <Layout title="Kelan Mazey's Blog">
-      <div>Hello</div>
-      <Sidebar blogPostInfo={blogPostInfo} />
+      <Navbar />
     </Layout>
   );
 };
