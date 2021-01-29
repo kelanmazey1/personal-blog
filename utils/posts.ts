@@ -6,13 +6,13 @@ import remark from 'remark';
 
 import { BlogPostInfo } from '../types';
 
-interface postData {
+export interface PostData {
   id: string;
   contentHtml: string;
-  grayMatterData: { [key: string]: any };
+  metaData: { [key: string]: any };
 }
 
-const postsDirectory = path.join(process.cwd(), 'posts');
+const projectsDirectory = path.join(process.cwd(), 'projects');
 
 // Helper to extract file contents from markdown
 const getFileContents = (directory: string, fileName: string): string => {
@@ -22,9 +22,9 @@ const getFileContents = (directory: string, fileName: string): string => {
   return fileContents;
 };
 
-export const getPostData = async (id: string): Promise<postData> => {
+export const getPostData = async (id: string): Promise<PostData> => {
   // Parse post metadata
-  const matterResult = matter(getFileContents(postsDirectory, id));
+  const matterResult = matter(getFileContents(projectsDirectory, id));
 
   // Convert markdown to HTML string
   const processedContent = await remark()
@@ -35,17 +35,29 @@ export const getPostData = async (id: string): Promise<postData> => {
   return {
     id,
     contentHtml,
-    grayMatterData: matterResult.data,
+    metaData: matterResult.data,
   };
 };
 
+export const getAllPostIds = () => {
+  const fileNames = fs.readdirSync(projectsDirectory);
+
+  return fileNames.map((fileName) => {
+    return {
+      params: {
+        id: fileName.replace(/\.md$/, ''),
+      },
+    };
+  });
+};
+
 export const getPostInfo = (): BlogPostInfo[] => {
-  const fileNames = fs.readdirSync(postsDirectory);
+  const fileNames = fs.readdirSync(projectsDirectory);
 
   const allPostsInfo = fileNames.map((fileName) => {
     // set filename without extensino as id
     const id = fileName.replace(/\.md$/, '');
-    const matterResult = matter(getFileContents(postsDirectory, id));
+    const matterResult = matter(getFileContents(projectsDirectory, id));
     const {
       data: { title, date, image_filename },
     } = matterResult;
