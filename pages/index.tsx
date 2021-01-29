@@ -23,6 +23,7 @@ export const getStaticProps = async (): Promise<
 };
 
 const Home = ({ blogPostInfo }: homeProps) => {
+  console.log(blogPostInfo);
   return (
     <Layout title="Kelan Mazey's Blog">
       <Navbar />
@@ -43,12 +44,11 @@ const Home = ({ blogPostInfo }: homeProps) => {
       </div>
       <h2>Projects</h2>
       <div>
-        <Link href="/posts/test">
-          <img src="/images/test.jpg" width={200} height={200} />
-        </Link>
-        <Link href="post/test2">
-          <img src="/images/test2.jpg" width={200} height={200} />
-        </Link>
+        {blogPostInfo.map(({ id, image_filename }) => (
+          <Link href={`/posts/${id}`} key={id}>
+            <img src={`/images/${image_filename}`} width={200} height={200} />
+          </Link>
+        ))}
       </div>
       <h2>Contact</h2>
       <div>This will be a form</div>

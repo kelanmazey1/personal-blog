@@ -1,6 +1,7 @@
 ---
 title: 'Test Post 1'
 date: '2020-01-01'
+image_filename: 'test.jpg'
 ---
 
 The standard Lorem Ipsum passage, used since the 1500s

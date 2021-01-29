@@ -47,12 +47,13 @@ export const getPostInfo = (): BlogPostInfo[] => {
     const id = fileName.replace(/\.md$/, '');
     const matterResult = matter(getFileContents(postsDirectory, id));
     const {
-      data: { title, date },
+      data: { title, date, image_filename },
     } = matterResult;
     return {
       id,
       date,
       title,
+      image_filename,
     };
   });
 
